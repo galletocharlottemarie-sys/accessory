@@ -1,6 +1,6 @@
 // CONFIGURATION - Replace with your project details
-const SUPABASE_URL = 'https://YOUR_SUPABASE_PROJECT_ID.supabase.co';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_URL = 'https://rqvfdwrxibkoymbuqtwm.supabase.co/rest/v1/';
+const SUPABASE_ANON_KEY = 'sb_publishable_wSne4fv2lp2kXgp4nyF-Yg_FH8FZssN';
 const PAYMONGO_PUBLIC_KEY = 'pk_test_YOUR_PAYMONGO_KEY';
 
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
