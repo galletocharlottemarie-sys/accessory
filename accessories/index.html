@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AURA | Modern Accessory Atelier</title>
+  
+  <!-- Typography & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  
+  <!-- Supabase Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- HEADER & NAVIGATION -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#home" class="brand-logo">AURA<span>.</span></a>
+      
+      <nav class="nav-links">
+        <a href="#home" class="active">Home</a>
+        <a href="#store">Store Page</a>
+        <a href="#seller">Seller Dashboard</a>
+        <a href="#about">About Us</a>
+        <a href="#contact">Contacts</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="auth-btn" class="btn btn-outline" onclick="openAuthModal()">Sign In</button>
+        <div id="user-avatar" class="avatar hidden" onclick="toggleUserDropdown()"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main>
+    <!-- HERO SECTION (Rule of Thirds & High Contrast Hierarchy) -->
+    <section id="home" class="hero-grid">
+      <div class="hero-content">
+        <span class="hero-subtitle">Handcrafted Luxury</span>
+        <h1 class="hero-title">Elegance in Every Detail.</h1>
+        <p class="hero-description">Discover artisanal jewelry and daily statement pieces, curated to complement your distinct lifestyle.</p>
+        <div class="hero-cta-group">
+          <a href="#store" class="btn btn-primary">Shop Collection</a>
+          <a href="#seller" class="btn btn-secondary">Become a Seller</a>
+        </div>
+      </div>
+      <div class="hero-media">
+        <div class="hero-image-wrapper">
+          <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=1000&q=80" alt="Luxury Accessories Collection" />
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES / BRAND VALUES -->
+    <section class="features-bar">
+      <div class="feature-item">
+        <i data-feather="shield"></i>
+        <div>
+          <h4>Escrow Guarantee</h4>
+          <p>Protected GCash & Card Payments</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <i data-feather="truck"></i>
+        <div>
+          <h4>Nationwide Express</h4>
+          <p>Direct door-to-door delivery</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <i data-feather="award"></i>
+        <div>
+          <h4>Verified Artisans</h4>
+          <p>Strict quality control standards</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STORE PAGE / PRODUCTS SECTION -->
+    <section id="store" class="section-container">
+      <div class="section-header">
+        <div>
+          <h2>Featured Accessories</h2>
+          <p>Hand-picked statement pieces from top verified local sellers.</p>
+        </div>
+        <div class="filter-pills">
+          <button class="pill active" onclick="filterProducts('all')">All</button>
+          <button class="pill" onclick="filterProducts('Necklaces')">Necklaces</button>
+          <button class="pill" onclick="filterProducts('Rings')">Rings</button>
+          <button class="pill" onclick="filterProducts('Watches')">Watches</button>
+        </div>
+      </div>
+
+      <div id="product-grid" class="product-grid">
+        <!-- Products populated via JavaScript -->
+      </div>
+    </section>
+
+    <!-- SELLER DASHBOARD SECTION -->
+    <section id="seller" class="section-container bg-surface">
+      <div class="seller-wrapper">
+        <div class="seller-intro">
+          <h2>Monetize Your Craft</h2>
+          <p>Post your accessories on AURA. Secure payments directly to your GCash account upon successful buyer deliveries.</p>
+          <ul class="benefit-list">
+            <li><i data-feather="check"></i> Direct GCash payouts</li>
+            <li><i data-feather="check"></i> Instant buyer notification engine</li>
+            <li><i data-feather="check"></i> Built-in analytics dashboard</li>
+          </ul>
+        </div>
+
+        <div class="seller-card">
+          <h3>Post New Product</h3>
+          <form id="add-product-form" onsubmit="handleCreateProduct(event)">
+            <div class="form-group">
+              <label for="prod-title">Product Title</label>
+              <input type="text" id="prod-title" required placeholder="e.g. Minimalist Gold Chain" />
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="prod-price">Price (PHP)</label>
+                <input type="number" step="0.01" id="prod-price" required placeholder="1499.00" />
+              </div>
+              <div class="form-group">
+                <label for="prod-category">Category</label>
+                <select id="prod-category" required>
+                  <option value="Necklaces">Necklaces</option>
+                  <option value="Rings">Rings</option>
+                  <option value="Watches">Watches</option>
+                  <option value="Bracelets">Bracelets</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="prod-img">Product Image URL</label>
+              <input type="url" id="prod-img" required placeholder="https://images.unsplash.com/..." />
+            </div>
+
+            <div class="form-group">
+              <label for="prod-desc">Description</label>
+              <textarea id="prod-desc" rows="3" required placeholder="Detail the materials, sizing, and care guides..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">Publish Listing</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT US SECTION -->
+    <section id="about" class="section-container">
+      <div class="about-grid">
+        <div class="about-image">
+          <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=800&q=80" alt="Atelier Craftsmanship" />
+        </div>
+        <div class="about-text">
+          <h2>Crafted for Distinction</h2>
+          <p>Founded with the core belief that personal adornment should be accessible, high-quality, and seamless to buy or sell. AURA empowers independent Filipino artisans by connecting them directly with style-conscious buyers.</p>
+          <p>Our platform leverages modern payment processing via PayMongo (GCash, Cards) and automated AI support to ensure every transaction is fast, secure, and clear.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTS SECTION -->
+    <section id="contact" class="section-container bg-surface">
+      <div class="contact-card">
+        <h2>Get in Touch</h2>
+        <p>Have questions about a customized order or store registration?</p>
+        <form id="contact-form" onsubmit="handleContactSubmit(event)">
+          <div class="form-row">
+            <input type="text" placeholder="Your Name" required />
+            <input type="email" placeholder="Your Email" required />
+          </div>
+          <textarea rows="4" placeholder="Your Message" required></textarea>
+          <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- SITEMAP & FOOTER -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-brand">
+        <a href="#home" class="brand-logo">AURA<span>.</span></a>
+        <p>The premier modern marketplace for handcrafted luxury and everyday accessories.</p>
+      </div>
+
+      <div class="sitemap">
+        <div class="sitemap-col">
+          <h4>Navigation</h4>
+          <a href="#home">Home</a>
+          <a href="#store">Store Page</a>
+          <a href="#seller">Seller Dashboard</a>
+          <a href="#about">About Us</a>
+          <a href="#contact">Contacts</a>
+        </div>
+        <div class="sitemap-col">
+          <h4>Account</h4>
+          <a href="#" onclick="openAuthModal()">Sign In / Register</a>
+          <a href="#seller">Seller Registration</a>
+          <a href="#">GCash Settings</a>
+        </div>
+        <div class="sitemap-col">
+          <h4>Legal & Support</h4>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">PayMongo Escrow Details</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 AURA Atelier Inc. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- MODAL: AUTHENTICATION (Register & Input GCash) -->
+  <div id="auth-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeAuthModal()">&times;</button>
+      <h3 id="modal-title">Sign In to AURA</h3>
+      
+      <form id="auth-form" onsubmit="handleAuthSubmit(event)">
+        <div class="form-group">
+          <label for="auth-email">Email Address</label>
+          <input type="email" id="auth-email" required placeholder="name@domain.com" />
+        </div>
+        <div class="form-group">
+          <label for="auth-password">Password</label>
+          <input type="password" id="auth-password" required placeholder="••••••••" />
+        </div>
+        
+        <div id="register-fields" class="hidden">
+          <div class="form-group">
+            <label for="auth-name">Full Name</label>
+            <input type="text" id="auth-name" placeholder="Juan Dela Cruz" />
+          </div>
+          <div class="form-group">
+            <label for="auth-gcash">GCash Registered Phone Number</label>
+            <input type="tel" id="auth-gcash" placeholder="09171234567" pattern="[0-9]{11}" />
+            <small>Used for receiving payouts when selling items.</small>
+          </div>
+        </div>
+
+        <button type="submit" id="auth-submit-btn" class="btn btn-primary btn-full">Sign In</button>
+      </form>
+
+      <p class="auth-toggle-text">
+        <span id="auth-toggle-msg">Don't have an account?</span>
+        <a href="#" id="auth-toggle-link" onclick="toggleAuthMode(event)">Register now</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- MODAL: REVIEWS & RATINGS -->
+  <div id="review-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeReviewModal()">&times;</button>
+      <h3>Product Reviews</h3>
+      
+      <div id="reviews-list" class="reviews-container"></div>
+
+      <hr class="divider" />
+
+      <form id="review-form" onsubmit="handleReviewSubmit(event)">
+        <input type="hidden" id="review-prod-id" />
+        <h4>Write a Review</h4>
+        <div class="star-rating-input">
+          <input type="radio" id="star5" name="rating" value="5" required /><label for="star5" title="5 stars">★</label>
+          <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars">★</label>
+          <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars">★</label>
+          <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 stars">★</label>
+          <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star">★</label>
+        </div>
+        <div class="form-group">
+          <textarea id="review-comment" rows="3" required placeholder="Describe product quality, shipping speed, etc."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Submit Review</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- VOICEFLOW AI CHATBOT EMBED -->
+  <script type="text/javascript">
+    (function(d, t) {
+        var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
+        v.onload = function() {
+          window.voiceflow.chat.load({
+            verify: { projectID: 'YOUR_VOICEFLOW_PROJECT_ID' },
+            url: 'https://general-runtime.voiceflow.com',
+            versionID: 'production'
+          });
+        }
+        v.src = "https://cdn.voiceflow.com/widget/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
+    })(document, 'script');
+  </script>
+
+  <script src="app.js"></script>
+</body>
+</html>
