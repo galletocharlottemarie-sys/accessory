@@ -1,0 +1,6 @@
+{
+  "name": "AURA Luxury Accessories & Marketplace",
+  "description": "High-contrast luxury accessories marketplace with PayMongo GCash checkout, seller product posting with GCash payouts, star reviews, AI styling concierge, and Supabase integration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
